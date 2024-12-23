@@ -8,7 +8,6 @@ ThemeData getApplicationTheme() {
     useMaterial3: true,
     primaryColor: ColorManager.primary,
     colorScheme: ColorScheme.light(primary: ColorManager.primary),
-    fontFamily: GoogleFonts.notoSans().fontFamily,
     // inputDecorationTheme: InputDecorationTheme(
     //   focusColor: ColorManager.blueDark,
     //   enabledBorder: OutlineInputBorder(

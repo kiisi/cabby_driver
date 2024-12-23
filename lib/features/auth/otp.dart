@@ -1,23 +1,23 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
 import 'package:cabby_driver/core/resources/values_manager.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class OtpScreen extends StatefulWidget {
+  const OtpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<OtpScreen> createState() => _OtpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _OtpScreenState extends State<OtpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -33,28 +33,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Sign in!',
+                    'OTP!',
                     style: TextStyle(
                       fontFamily: 'Euclide',
-                      fontSize: 42,
+                      fontSize: 36,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 2),
                   const Text(
-                    'Ready to Drive? Log in to start accepting rides.',
+                    'Enter the 6-digit code sent to your email',
                     style: TextStyle(
                         fontFamily: 'Euclide',
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(
                     height: 40,
                   ),
                   TextFormField(
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintText: "Email Address",
+                      hintText: "Enter 6 digit code",
                       filled: true,
                       fillColor: const Color(0xfff4f5f6),
                       hintStyle: TextStyle(
@@ -75,44 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontSize: AppSize.s16,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      hintText: "Password",
-                      filled: true,
-                      fillColor: const Color(0xfff4f5f6),
-                      hintStyle: TextStyle(
-                          color: ColorManager.blueDark,
-                          fontWeight: FontWeight.w300),
-                      border:
-                          const OutlineInputBorder(borderSide: BorderSide.none),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          style: BorderStyle.solid,
-                          color: ColorManager.primary,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 6, horizontal: 12),
-                    ),
-                    style: const TextStyle(
-                      fontSize: AppSize.s16,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text.rich(TextSpan(
-                      text: 'Forgot password?',
-                      style: TextStyle(color: ColorManager.primary),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          context.router.pushNamed('/forgot-password');
-                        },
-                    )),
-                  ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -124,30 +87,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(AppSize.s8),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.router.pushNamed('/reset-password');
+                      },
                       child: const Text(
-                        'Log in',
+                        'Verify',
                         style: TextStyle(fontSize: 16.0),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Text.rich(
-                      TextSpan(
-                        children: [
-                          const TextSpan(text: "Don't have an account? "),
-                          TextSpan(
-                            text: 'Sign up',
-                            style: TextStyle(
-                                color: ColorManager.primary, fontSize: 15.0),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                context.router.replaceNamed('/register');
-                              },
-                          ),
-                        ],
                       ),
                     ),
                   ),

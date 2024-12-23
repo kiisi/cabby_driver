@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
 import 'package:cabby_driver/core/resources/values_manager.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -34,17 +35,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const Text(
                     'Sign up!',
                     style: TextStyle(
-                        fontFamily: 'Euclide',
-                        fontSize: 42,
-                        fontWeight: FontWeight.bold),
+                      fontStyle: FontStyle.normal,
+                      fontFamily: 'Euclide',
+                      fontSize: 42,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   const SizedBox(height: 2),
                   const Text(
                     'Join thousands of drivers making travel easier.',
                     style: TextStyle(
-                        fontFamily: 'Euclide',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500),
+                      fontFamily: 'Euclide',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   const SizedBox(
                     height: 40,
@@ -172,7 +176,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: TextStyle(fontSize: 16.0),
                       ),
                     ),
-                  )
+                  ),
+                  const SizedBox(height: 16),
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          const TextSpan(text: "Already have an account? "),
+                          TextSpan(
+                            text: 'Sign in',
+                            style: TextStyle(
+                                color: ColorManager.primary, fontSize: 15.0),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                context.router.replaceNamed('/login');
+                              },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

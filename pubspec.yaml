@@ -163,16 +163,24 @@ flutter:
         - asset: assets/fonts/ubermove/UberMoveMedium.otf
     - family: Euclide
       fonts:
-        - asset: assets/fonts/euclide/Euclid-Circular-B-Bold-Italic.ttf
         - asset: assets/fonts/Euclide/Euclid-Circular-B-Bold.ttf
-        - asset: assets/fonts/Euclide/Euclid-Circular-B-Italic.ttf
+          style: normal
+        - asset: assets/fonts/euclide/Euclid-Circular-B-Bold-Italic.ttf
+          style: italic
         - asset: assets/fonts/Euclide/Euclid-Circular-B-Light-Italic.ttf
+          style: italic
         - asset: assets/fonts/Euclide/Euclid-Circular-B-Light.ttf
+          style: normal
         - asset: assets/fonts/Euclide/Euclid-Circular-B-Medium-Italic.ttf
+          style: italic
         - asset: assets/fonts/Euclide/Euclid-Circular-B-Medium.ttf
+          style: normal
         - asset: assets/fonts/Euclide/Euclid-Circular-B-Regular.ttf
+          style: normal
         - asset: assets/fonts/Euclide/Euclid-Circular-B-SemiBold-Italic.ttf
+          style: italic
         - asset: assets/fonts/Euclide/Euclid-Circular-B-SemiBold.ttf
+          style: normal
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
