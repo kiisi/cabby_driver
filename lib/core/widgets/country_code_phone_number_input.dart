@@ -30,8 +30,8 @@ class _CountryCodePhoneNumberInputState
     filteredCountries: ["AE", "SD", "AU", "KE", "NG"],
     showDialCode: true,
     showSearchBar: false,
-    dialCodeTextStyle: TextStyle(color: ColorManager.whiteSmoke),
-    countryTextStyle: TextStyle(color: ColorManager.whiteSmoke),
+    dialCodeTextStyle: TextStyle(color: ColorManager.blueDark),
+    countryTextStyle: TextStyle(color: ColorManager.blackDark),
     title: Padding(
       padding: const EdgeInsets.symmetric(vertical: AppPadding.p12),
       child: Center(
@@ -40,7 +40,7 @@ class _CountryCodePhoneNumberInputState
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: AppSize.s24,
-            color: ColorManager.white,
+            color: ColorManager.blackDark,
           ),
         ),
       ),
@@ -70,7 +70,6 @@ class _CountryCodePhoneNumberInputState
                   onTap: () async {
                     final code = await countryPicker.showPicker(
                       pickerMaxHeight: 300,
-                      backgroundColor: ColorManager.blueLight,
                       context: context,
                     );
                     // Null check
