@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 ThemeData getApplicationTheme() {
   return ThemeData(
+    fontFamily: 'Euclide',
     useMaterial3: true,
     primaryColor: ColorManager.primary,
     colorScheme: ColorScheme.light(primary: ColorManager.primary),

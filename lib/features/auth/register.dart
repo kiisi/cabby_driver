@@ -57,6 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          autofocus: true,
                           decoration: InputDecoration(
                             hintText: "First Name",
                             filled: true,
@@ -170,7 +171,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(AppSize.s8),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.router.replaceNamed('/register-details');
+                      },
                       child: const Text(
                         'Sign up',
                         style: TextStyle(fontSize: 16.0),
