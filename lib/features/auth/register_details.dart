@@ -125,10 +125,26 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
     showModalBottomSheet(
       context: context,
       clipBehavior: Clip.antiAlias,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+      ),
       builder: (context) => Container(
         padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
         child: Wrap(
           children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+            ),
             ListTile(
               leading: const Icon(
                 Icons.photo_library,
