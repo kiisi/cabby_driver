@@ -57,7 +57,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       Expanded(
                         child: TextFormField(
-                          autofocus: true,
                           decoration: InputDecoration(
                             hintText: "First Name",
                             filled: true,

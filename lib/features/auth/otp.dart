@@ -52,7 +52,6 @@ class _OtpScreenState extends State<OtpScreen> {
                     height: 40,
                   ),
                   TextFormField(
-                    autofocus: true,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: "Enter 6 digit code",

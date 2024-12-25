@@ -52,7 +52,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     height: 40,
                   ),
                   TextFormField(
-                    autofocus: true,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: "Email Address",

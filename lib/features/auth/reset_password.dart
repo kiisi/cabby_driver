@@ -52,7 +52,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     height: 40,
                   ),
                   TextFormField(
-                    autofocus: true,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     decoration: InputDecoration(

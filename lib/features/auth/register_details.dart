@@ -351,7 +351,6 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
-                    autofocus: true,
                     keyboardType: TextInputType.name,
                     decoration: InputDecoration(
                       hintText: "Full legal name",
