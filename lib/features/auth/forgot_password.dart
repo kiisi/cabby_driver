@@ -1,6 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cabby_driver/app/di.dart';
+import 'package:cabby_driver/core/common/custom_flushbar.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
 import 'package:cabby_driver/core/resources/values_manager.dart';
+import 'package:cabby_driver/core/widgets/custom_button.dart';
+import 'package:cabby_driver/data/request/authentication_request.dart';
+import 'package:cabby_driver/domain/usecase/authentication_usecase.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -13,6 +18,43 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  bool isLoading = false;
+
+  final SendEmailOtpUseCase sendEmailOtpUseCase = getIt<SendEmailOtpUseCase>();
+
+  final TextEditingController emailTextEditingController =
+      TextEditingController();
+
+  void submit() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    (await sendEmailOtpUseCase.execute(SendEmailOtpRequest(
+      email: emailTextEditingController.text,
+    )))
+        .fold((error) {
+      CustomFlushbar.showErrorFlushBar(
+          context: context, message: error.message);
+      setState(() {
+        isLoading = false;
+      });
+    }, (success) {
+      CustomFlushbar.showSuccessSnackBar(
+          context: context, message: success.message ?? '');
+
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        if (mounted) {
+          context.router.pushNamed('/otp');
+        }
+      });
+
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +94,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     height: 40,
                   ),
                   TextFormField(
+                    controller: emailTextEditingController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: "Email Address",
@@ -76,25 +119,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorManager.black,
-                        foregroundColor: ColorManager.white,
-                        fixedSize: const Size.fromHeight(AppSize.s48),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s8),
-                        ),
-                      ),
-                      onPressed: () {
-                        context.router.pushNamed('/otp');
-                      },
-                      child: const Text(
-                        'Submit',
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    ),
+                  CustomButton(
+                    label: 'Submit',
+                    isLoading: isLoading,
+                    onPressed: () {
+                      submit();
+                    },
                   ),
                 ],
               ),

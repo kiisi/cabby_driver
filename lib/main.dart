@@ -1,8 +1,13 @@
+import 'package:cabby_driver/app/di.dart';
 import 'package:cabby_driver/core/resources/theme_manager.dart';
 import 'package:cabby_driver/core/routes/app_router.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await initAppModule();
+
   runApp(MyApp());
 }
 

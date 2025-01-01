@@ -42,7 +42,7 @@ class _AppServiceClient implements AppServiceClient {
     )
         .compose(
           _dio.options,
-          '/auth/login',
+          '/auth/driver/login',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -66,12 +66,11 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<BaseResponse<dynamic>> register({
+  Future<BaseResponse<RegisterResponse>> register({
     required String firstName,
     required String lastName,
     required String email,
-    required String countryCode,
-    required String phoneNumber,
+    required String password,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -80,9 +79,44 @@ class _AppServiceClient implements AppServiceClient {
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
-      'countryCode': countryCode,
-      'phoneNumber': phoneNumber,
+      'password': password,
     };
+    final _options = _setStreamType<BaseResponse<RegisterResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/auth/driver/register',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponse<RegisterResponse> _value;
+    try {
+      _value = BaseResponse<RegisterResponse>.fromJson(
+        _result.data!,
+        (json) => RegisterResponse.fromJson(json as Map<String, dynamic>),
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<BaseResponse<dynamic>> sendEmailOtp({required String email}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {'email': email};
     final _options = _setStreamType<BaseResponse<dynamic>>(Options(
       method: 'POST',
       headers: _headers,
@@ -90,7 +124,7 @@ class _AppServiceClient implements AppServiceClient {
     )
         .compose(
           _dio.options,
-          '/auth/register',
+          '/auth/driver/send-email-otp',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -114,25 +148,11 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<BaseResponse<dynamic>> getStartedUserInfo({
-    required String email,
-    required String firstName,
-    required String lastName,
-    required String gender,
-    required String countryCode,
-    required String phoneNumber,
-  }) async {
+  Future<BaseResponse<dynamic>> emailOtpVerify({required String email}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = {
-      'email': email,
-      'firstName': firstName,
-      'lastName': lastName,
-      'gender': gender,
-      'countryCode': countryCode,
-      'phoneNumber': phoneNumber,
-    };
+    final _data = {'email': email};
     final _options = _setStreamType<BaseResponse<dynamic>>(Options(
       method: 'POST',
       headers: _headers,
@@ -140,7 +160,7 @@ class _AppServiceClient implements AppServiceClient {
     )
         .compose(
           _dio.options,
-          '/auth/get-started/user-info',
+          '/auth/driver/email-otp-verify',
           queryParameters: queryParameters,
           data: _data,
         )

@@ -10,29 +10,28 @@ part 'app_api.g.dart';
 abstract class AppServiceClient {
   factory AppServiceClient(Dio dio, {String baseUrl}) = _AppServiceClient;
 
-  @POST('/auth/login')
+  @POST('/auth/driver/login')
   Future<BaseResponse> login({
     @Field("email") required String email,
     @Field("password") required String password,
   });
 
-  @POST('/auth/register')
-  Future<BaseResponse> register({
+  @POST('/auth/driver/register')
+  Future<BaseResponse<RegisterResponse>> register({
     @Field("firstName") required String firstName,
     @Field("lastName") required String lastName,
     @Field("email") required String email,
-    @Field("countryCode") required String countryCode,
-    @Field("phoneNumber") required String phoneNumber,
+    @Field("password") required String password,
   });
 
-  @POST('/auth/get-started/user-info')
-  Future<BaseResponse> getStartedUserInfo({
+  @POST('/auth/driver/send-email-otp')
+  Future<BaseResponse> sendEmailOtp({
     @Field("email") required String email,
-    @Field("firstName") required String firstName,
-    @Field("lastName") required String lastName,
-    @Field("gender") required String gender,
-    @Field("countryCode") required String countryCode,
-    @Field("phoneNumber") required String phoneNumber,
+  });
+
+  @POST('/auth/driver/email-otp-verify')
+  Future<BaseResponse> emailOtpVerify({
+    @Field("email") required String email,
   });
 
   @GET('/auth/user-auth')

@@ -1,8 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cabby_driver/app/di.dart';
+import 'package:cabby_driver/core/common/custom_flushbar.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
 import 'package:cabby_driver/core/resources/values_manager.dart';
+import 'package:cabby_driver/data/request/authentication_request.dart';
+import 'package:cabby_driver/domain/usecase/authentication_usecase.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 @RoutePage()
 class RegisterScreen extends StatefulWidget {
@@ -13,7 +18,50 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  bool isLoading = false;
+
+  final RegisterUseCase registerUseCase = getIt<RegisterUseCase>();
+
   final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController firstNameTextEditingController =
+      TextEditingController();
+  final TextEditingController lastNameTextEditingController =
+      TextEditingController();
+  final TextEditingController emailTextEditingController =
+      TextEditingController();
+  final TextEditingController passwordTextEditingController =
+      TextEditingController();
+
+  void submit() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    (await registerUseCase.execute(RegisterRequest(
+            firstName: firstNameTextEditingController.text,
+            lastName: lastNameTextEditingController.text,
+            email: emailTextEditingController.text,
+            password: passwordTextEditingController.text)))
+        .fold((error) {
+      CustomFlushbar.showErrorFlushBar(
+          context: context, message: error.message);
+      setState(() {
+        isLoading = false;
+      });
+    }, (success) {
+      CustomFlushbar.showSuccessSnackBar(
+          context: context, message: success.message ?? '');
+      setState(() {
+        isLoading = false;
+      });
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        if (mounted) {
+          context.router.replaceNamed('/register-details');
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          controller: firstNameTextEditingController,
                           decoration: InputDecoration(
                             hintText: "First Name",
                             filled: true,
@@ -83,6 +132,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(width: 8),
                       Expanded(
                         child: TextFormField(
+                          controller: lastNameTextEditingController,
                           decoration: InputDecoration(
                             hintText: "Last Name",
                             filled: true,
@@ -110,6 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    controller: emailTextEditingController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: "Email Address",
@@ -135,6 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    controller: passwordTextEditingController,
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: "Password",
@@ -171,12 +223,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       onPressed: () {
-                        context.router.replaceNamed('/register-details');
+                        submit();
                       },
-                      child: const Text(
-                        'Sign up',
-                        style: TextStyle(fontSize: 16.0),
-                      ),
+                      child: isLoading
+                          ? const SpinKitFadingCircle(
+                              color: Colors.white,
+                              size: 24,
+                            )
+                          : const Text(
+                              'Sign up',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 16),

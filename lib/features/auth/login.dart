@@ -1,8 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cabby_driver/app/di.dart';
+import 'package:cabby_driver/core/common/custom_flushbar.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
 import 'package:cabby_driver/core/resources/values_manager.dart';
+import 'package:cabby_driver/data/request/authentication_request.dart';
+import 'package:cabby_driver/domain/usecase/authentication_usecase.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
@@ -13,7 +18,46 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool isLoading = false;
+
   final _formKey = GlobalKey<FormState>();
+
+  final LoginUseCase loginUseCase = getIt<LoginUseCase>();
+
+  final TextEditingController emailTextEditingController =
+      TextEditingController();
+  final TextEditingController passwordTextEditingController =
+      TextEditingController();
+
+  void submit() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    (await loginUseCase.execute(LoginRequest(
+            email: emailTextEditingController.text,
+            password: passwordTextEditingController.text)))
+        .fold((error) {
+      CustomFlushbar.showErrorFlushBar(
+          context: context, message: error.message);
+      setState(() {
+        isLoading = false;
+      });
+    }, (success) {
+      CustomFlushbar.showSuccessSnackBar(
+          context: context, message: success.message ?? '');
+
+      // Future.delayed(const Duration(milliseconds: 1500), () {
+      //   if (mounted) {
+      //     context.router.replaceNamed('/');
+      //   }
+      // });
+
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 40,
                   ),
                   TextFormField(
+                    controller: emailTextEditingController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: "Email Address",
@@ -77,6 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    controller: passwordTextEditingController,
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: "Password",
@@ -124,11 +170,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           borderRadius: BorderRadius.circular(AppSize.s8),
                         ),
                       ),
-                      onPressed: () {},
-                      child: const Text(
-                        'Log in',
-                        style: TextStyle(fontSize: 16.0),
-                      ),
+                      onPressed: () {
+                        submit();
+                      },
+                      child: isLoading
+                          ? const SpinKitFadingCircle(
+                              color: Colors.white,
+                              size: 24,
+                            )
+                          : const Text(
+                              'Log in',
+                              style: TextStyle(fontSize: 16.0),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 16),
