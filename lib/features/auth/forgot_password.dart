@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cabby_driver/app/app_prefs.dart';
 import 'package:cabby_driver/app/di.dart';
 import 'package:cabby_driver/core/common/custom_flushbar.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
@@ -21,6 +22,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   bool isLoading = false;
 
+  final AppPreferences _appPreferences = getIt<AppPreferences>();
+
   final SendEmailOtpUseCase sendEmailOtpUseCase = getIt<SendEmailOtpUseCase>();
 
   final TextEditingController emailTextEditingController =
@@ -30,6 +33,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     setState(() {
       isLoading = true;
     });
+
+    _appPreferences.setForgotPasswordEmail(emailTextEditingController.text);
 
     (await sendEmailOtpUseCase.execute(SendEmailOtpRequest(
       email: emailTextEditingController.text,

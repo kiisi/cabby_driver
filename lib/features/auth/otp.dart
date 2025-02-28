@@ -1,7 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cabby_driver/app/app_prefs.dart';
+import 'package:cabby_driver/app/di.dart';
+import 'package:cabby_driver/core/common/custom_flushbar.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
 import 'package:cabby_driver/core/resources/values_manager.dart';
+import 'package:cabby_driver/data/request/authentication_request.dart';
+import 'package:cabby_driver/domain/usecase/authentication_usecase.dart';
 import 'package:flutter/material.dart';
+import 'package:cabby_driver/core/widgets/custom_button.dart';
 
 @RoutePage()
 class OtpScreen extends StatefulWidget {
@@ -13,6 +19,49 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  bool isLoading = false;
+
+  final AppPreferences _appPreferences = getIt<AppPreferences>();
+
+  final EmailOtpVerifyUseCase emailOtpVerifyUseCase =
+      getIt<EmailOtpVerifyUseCase>();
+
+  final TextEditingController otpTextEditingController =
+      TextEditingController();
+
+  void submit() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    (await emailOtpVerifyUseCase.execute(EmailOtpVerifyRequest(
+      email: _appPreferences.getForgotPasswordEmail(),
+      otp: otpTextEditingController.text,
+    )))
+        .fold((error) {
+      CustomFlushbar.showErrorFlushBar(
+          context: context, message: error.message);
+      setState(() {
+        isLoading = false;
+      });
+    }, (success) {
+      CustomFlushbar.showSuccessSnackBar(
+          context: context, message: success.message ?? '');
+
+      _appPreferences.setEmailOtpId(success.data?.emailOtpId ?? '');
+
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        if (mounted) {
+          context.router.pushNamed('/reset-password');
+        }
+      });
+
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +101,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     height: 40,
                   ),
                   TextFormField(
+                    controller: otpTextEditingController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       hintText: "Enter 6 digit code",
@@ -76,25 +126,12 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorManager.black,
-                        foregroundColor: ColorManager.white,
-                        fixedSize: const Size.fromHeight(AppSize.s48),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s8),
-                        ),
-                      ),
-                      onPressed: () {
-                        context.router.pushNamed('/reset-password');
-                      },
-                      child: const Text(
-                        'Verify',
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    ),
+                  CustomButton(
+                    label: 'Verify',
+                    onPressed: () {
+                      submit();
+                    },
+                    isLoading: isLoading,
                   ),
                 ],
               ),

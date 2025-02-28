@@ -12,6 +12,8 @@ const String prefsKeyUserCountryCode = "PREFS_KEY_USER_COUNTRY_CODE";
 const String prefsKeyUserFirstName = "PREFS_KEY_USER_FIRST_NAME";
 const String prefsKeyUserLastName = "PREFS_KEY_USER_LAST_NAME";
 const String prefsKeyUserGender = "PREFS_KEY_USER_GENDER";
+const String prefsKeyForgotPasswordEmail = "PREFS_KEY_FORGOT_PASSWORD_EMAIL";
+const String prefsKeyEmailOtpId = "PREFS_KEY_EMAIL_OTP_ID";
 
 class AppPreferences {
   final SharedPreferences _sharedPreferences;
@@ -56,6 +58,22 @@ class AppPreferences {
 
   String getUserEmail() {
     return _sharedPreferences.getString(prefsKeyUserEmail) ?? '';
+  }
+
+  Future<void> setForgotPasswordEmail(String email) async {
+    _sharedPreferences.setString(prefsKeyForgotPasswordEmail, email);
+  }
+
+  String getForgotPasswordEmail() {
+    return _sharedPreferences.getString(prefsKeyForgotPasswordEmail) ?? '';
+  }
+
+  Future<void> setEmailOtpId(String id) async {
+    _sharedPreferences.setString(prefsKeyEmailOtpId, id);
+  }
+
+  String getEmailOtpId() {
+    return _sharedPreferences.getString(prefsKeyEmailOtpId) ?? '';
   }
 
   Future<void> setUserPhoneNumber(int phoneNumber) async {

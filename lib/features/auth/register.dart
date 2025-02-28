@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cabby_driver/app/app_prefs.dart';
 import 'package:cabby_driver/app/di.dart';
 import 'package:cabby_driver/core/common/custom_flushbar.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
@@ -22,16 +23,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final RegisterUseCase registerUseCase = getIt<RegisterUseCase>();
 
+  final AppPreferences _appPreferences = getIt<AppPreferences>();
+
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController firstNameTextEditingController =
-      TextEditingController();
-  final TextEditingController lastNameTextEditingController =
-      TextEditingController();
-  final TextEditingController emailTextEditingController =
-      TextEditingController();
-  final TextEditingController passwordTextEditingController =
-      TextEditingController();
+  final TextEditingController firstNameTextEditingController = TextEditingController();
+  final TextEditingController lastNameTextEditingController = TextEditingController();
+  final TextEditingController emailTextEditingController = TextEditingController();
+  final TextEditingController passwordTextEditingController = TextEditingController();
 
   void submit() async {
     setState(() {
@@ -44,17 +43,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
             email: emailTextEditingController.text,
             password: passwordTextEditingController.text)))
         .fold((error) {
-      CustomFlushbar.showErrorFlushBar(
-          context: context, message: error.message);
+      CustomFlushbar.showErrorFlushBar(context: context, message: error.message);
       setState(() {
         isLoading = false;
       });
     }, (success) {
-      CustomFlushbar.showSuccessSnackBar(
-          context: context, message: success.message ?? '');
+      CustomFlushbar.showSuccessSnackBar(context: context, message: success.message ?? '');
       setState(() {
         isLoading = false;
       });
+
+      _appPreferences.setAccessToken(success.data?.accessToken);
+
+      _appPreferences.setAccessToken(success.data?.user.email);
+
       Future.delayed(const Duration(milliseconds: 1500), () {
         if (mounted) {
           context.router.replaceNamed('/register-details');
@@ -110,19 +112,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             hintText: "First Name",
                             filled: true,
                             fillColor: const Color(0xfff4f5f6),
-                            hintStyle: TextStyle(
-                                color: ColorManager.blueDark,
-                                fontWeight: FontWeight.w300),
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide.none),
+                            hintStyle: TextStyle(color: ColorManager.blueDark, fontWeight: FontWeight.w300),
+                            border: const OutlineInputBorder(borderSide: BorderSide.none),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 style: BorderStyle.solid,
                                 color: ColorManager.primary,
                               ),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 12),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                           ),
                           style: const TextStyle(
                             fontSize: AppSize.s16,
@@ -137,19 +135,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             hintText: "Last Name",
                             filled: true,
                             fillColor: const Color(0xfff4f5f6),
-                            hintStyle: TextStyle(
-                                color: ColorManager.blueDark,
-                                fontWeight: FontWeight.w300),
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide.none),
+                            hintStyle: TextStyle(color: ColorManager.blueDark, fontWeight: FontWeight.w300),
+                            border: const OutlineInputBorder(borderSide: BorderSide.none),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 style: BorderStyle.solid,
                                 color: ColorManager.primary,
                               ),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 6, horizontal: 12),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                           ),
                           style: const TextStyle(
                             fontSize: AppSize.s16,
@@ -166,19 +160,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       hintText: "Email Address",
                       filled: true,
                       fillColor: const Color(0xfff4f5f6),
-                      hintStyle: TextStyle(
-                          color: ColorManager.blueDark,
-                          fontWeight: FontWeight.w300),
-                      border:
-                          const OutlineInputBorder(borderSide: BorderSide.none),
+                      hintStyle: TextStyle(color: ColorManager.blueDark, fontWeight: FontWeight.w300),
+                      border: const OutlineInputBorder(borderSide: BorderSide.none),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           style: BorderStyle.solid,
                           color: ColorManager.primary,
                         ),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 6, horizontal: 12),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                     ),
                     style: const TextStyle(
                       fontSize: AppSize.s16,
@@ -192,19 +182,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       hintText: "Password",
                       filled: true,
                       fillColor: const Color(0xfff4f5f6),
-                      hintStyle: TextStyle(
-                          color: ColorManager.blueDark,
-                          fontWeight: FontWeight.w300),
-                      border:
-                          const OutlineInputBorder(borderSide: BorderSide.none),
+                      hintStyle: TextStyle(color: ColorManager.blueDark, fontWeight: FontWeight.w300),
+                      border: const OutlineInputBorder(borderSide: BorderSide.none),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           style: BorderStyle.solid,
                           color: ColorManager.primary,
                         ),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 6, horizontal: 12),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                     ),
                     style: const TextStyle(
                       fontSize: AppSize.s16,
@@ -245,8 +231,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           const TextSpan(text: "Already have an account? "),
                           TextSpan(
                             text: 'Sign in',
-                            style: TextStyle(
-                                color: ColorManager.primary, fontSize: 15.0),
+                            style: TextStyle(color: ColorManager.primary, fontSize: 15.0),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 context.router.replaceNamed('/login');

@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cabby_driver/app/app_prefs.dart';
 import 'package:cabby_driver/app/di.dart';
 import 'package:cabby_driver/core/common/custom_flushbar.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
 import 'package:cabby_driver/core/resources/values_manager.dart';
+import 'package:cabby_driver/core/routes/app_router.gr.dart';
 import 'package:cabby_driver/data/request/authentication_request.dart';
 import 'package:cabby_driver/domain/usecase/authentication_usecase.dart';
 import 'package:flutter/gestures.dart';
@@ -22,36 +24,40 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final LoginUseCase loginUseCase = getIt<LoginUseCase>();
+  final AppPreferences _appPreferences = getIt<AppPreferences>();
 
-  final TextEditingController emailTextEditingController =
-      TextEditingController();
-  final TextEditingController passwordTextEditingController =
-      TextEditingController();
+  final LoginUseCase _loginUseCase = getIt<LoginUseCase>();
+
+  final TextEditingController emailTextEditingController = TextEditingController();
+  final TextEditingController passwordTextEditingController = TextEditingController();
 
   void submit() async {
     setState(() {
       isLoading = true;
     });
 
-    (await loginUseCase.execute(LoginRequest(
-            email: emailTextEditingController.text,
-            password: passwordTextEditingController.text)))
+    (await _loginUseCase.execute(LoginRequest(
+            email: emailTextEditingController.text, password: passwordTextEditingController.text)))
         .fold((error) {
-      CustomFlushbar.showErrorFlushBar(
-          context: context, message: error.message);
+      CustomFlushbar.showErrorFlushBar(context: context, message: error.message);
       setState(() {
         isLoading = false;
       });
     }, (success) {
-      CustomFlushbar.showSuccessSnackBar(
-          context: context, message: success.message ?? '');
+      CustomFlushbar.showSuccessSnackBar(context: context, message: success.message ?? '');
 
-      // Future.delayed(const Duration(milliseconds: 1500), () {
-      //   if (mounted) {
-      //     context.router.replaceNamed('/');
-      //   }
-      // });
+      _appPreferences.setAccessToken(success.data?.accessToken);
+      _appPreferences.setUserEmail(success.data?.user.email ?? '');
+
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        if (mounted) {
+          if (success.data?.user.isRegistrationComplete == true) {
+            context.router.replaceAll([const ActivityRoute()]);
+          } else {
+            context.router.replaceNamed('/register-details');
+          }
+        }
+      });
 
       setState(() {
         isLoading = false;
@@ -87,10 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 2),
                   const Text(
                     'Ready to Drive? Log in to start accepting rides.',
-                    style: TextStyle(
-                        fontFamily: 'Euclide',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500),
+                    style: TextStyle(fontFamily: 'Euclide', fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(
                     height: 40,
@@ -102,19 +105,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: "Email Address",
                       filled: true,
                       fillColor: const Color(0xfff4f5f6),
-                      hintStyle: TextStyle(
-                          color: ColorManager.blueDark,
-                          fontWeight: FontWeight.w300),
-                      border:
-                          const OutlineInputBorder(borderSide: BorderSide.none),
+                      hintStyle: TextStyle(color: ColorManager.blueDark, fontWeight: FontWeight.w300),
+                      border: const OutlineInputBorder(borderSide: BorderSide.none),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           style: BorderStyle.solid,
                           color: ColorManager.primary,
                         ),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 6, horizontal: 12),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                     ),
                     style: const TextStyle(
                       fontSize: AppSize.s16,
@@ -128,19 +127,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: "Password",
                       filled: true,
                       fillColor: const Color(0xfff4f5f6),
-                      hintStyle: TextStyle(
-                          color: ColorManager.blueDark,
-                          fontWeight: FontWeight.w300),
-                      border:
-                          const OutlineInputBorder(borderSide: BorderSide.none),
+                      hintStyle: TextStyle(color: ColorManager.blueDark, fontWeight: FontWeight.w300),
+                      border: const OutlineInputBorder(borderSide: BorderSide.none),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           style: BorderStyle.solid,
                           color: ColorManager.primary,
                         ),
                       ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 6, horizontal: 12),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                     ),
                     style: const TextStyle(
                       fontSize: AppSize.s16,
@@ -193,8 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           const TextSpan(text: "Don't have an account? "),
                           TextSpan(
                             text: 'Sign up',
-                            style: TextStyle(
-                                color: ColorManager.primary, fontSize: 15.0),
+                            style: TextStyle(color: ColorManager.primary, fontSize: 15.0),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 context.router.replaceNamed('/register');

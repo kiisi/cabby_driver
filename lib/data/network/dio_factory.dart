@@ -23,16 +23,18 @@ class DioFactory {
     Map<String, dynamic>? headers = {
       contentType: applicationJson,
       accept: applicationJson,
-      // authorization: 'Bearer $accessToken',
       defaultLanguage: language
     };
 
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
-        String accessToken = await _appPreferences.getAccessToken();
-        print('===> token: $accessToken');
-        options.headers['Authorization'] = 'Bearer $accessToken';
-        handler.next(options); // Continue with the request
+        if (options.uri.toString().contains('api.cloudinary.com')) {
+          options.headers.remove("Authorization");
+        } else {
+          String accessToken = await _appPreferences.getAccessToken();
+          options.headers['Authorization'] = 'Bearer $accessToken';
+        }
+        handler.next(options);
       },
     ));
 

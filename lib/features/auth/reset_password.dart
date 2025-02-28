@@ -1,6 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cabby_driver/app/app_prefs.dart';
+import 'package:cabby_driver/app/di.dart';
+import 'package:cabby_driver/core/common/custom_flushbar.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
 import 'package:cabby_driver/core/resources/values_manager.dart';
+import 'package:cabby_driver/core/widgets/custom_button.dart';
+import 'package:cabby_driver/data/request/authentication_request.dart';
+import 'package:cabby_driver/domain/usecase/authentication_usecase.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -12,7 +18,52 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+  bool isLoading = false;
+
   final _formKey = GlobalKey<FormState>();
+
+  final AppPreferences _appPreferences = getIt<AppPreferences>();
+
+  final ResetPasswordUseCase _resetPasswordUseCase =
+      getIt<ResetPasswordUseCase>();
+
+  TextEditingController newPasswordTextEditingController =
+      TextEditingController();
+  TextEditingController confirmPasswordTextEditingController =
+      TextEditingController();
+
+  void submit() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    (await _resetPasswordUseCase.execute(ResetPasswordRequest(
+      email: _appPreferences.getForgotPasswordEmail(),
+      emailOtpId: _appPreferences.getEmailOtpId(),
+      newPassword: newPasswordTextEditingController.text,
+      confirmPassword: confirmPasswordTextEditingController.text,
+    )))
+        .fold((error) {
+      CustomFlushbar.showErrorFlushBar(
+          context: context, message: error.message);
+      setState(() {
+        isLoading = false;
+      });
+    }, (success) {
+      CustomFlushbar.showSuccessSnackBar(
+          context: context, message: success.message ?? '');
+
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        if (mounted) {
+          context.router.pushNamed('/login');
+        }
+      });
+
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +103,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     height: 40,
                   ),
                   TextFormField(
+                    controller: newPasswordTextEditingController,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -78,6 +130,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
+                    controller: confirmPasswordTextEditingController,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -103,25 +156,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorManager.black,
-                        foregroundColor: ColorManager.white,
-                        fixedSize: const Size.fromHeight(AppSize.s48),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s8),
-                        ),
-                      ),
-                      onPressed: () {
-                        // context.router.pushNamed('/otp');
-                      },
-                      child: const Text(
-                        'Submit',
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    ),
+                  CustomButton(
+                    label: 'Submit',
+                    onPressed: () {
+                      submit();
+                    },
+                    isLoading: isLoading,
                   ),
                 ],
               ),

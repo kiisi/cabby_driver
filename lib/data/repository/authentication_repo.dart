@@ -5,13 +5,14 @@ import 'package:cabby_driver/data/response/response.dart';
 import 'package:dartz/dartz.dart';
 
 abstract interface class AuthenticationRepository {
-  Future<Either<Failure, BaseResponse>> loginRequest(LoginRequest loginRequest);
-  Future<Either<Failure, BaseResponse<RegisterResponse>>> registerRequest(
-      RegisterRequest registerRequest);
-  Future<Either<Failure, BaseResponse>> sendEmailOtpRequest(
-      SendEmailOtpRequest sendEmailOtpRequest);
-  Future<Either<Failure, BaseResponse>> emailOtpVerifyRequest(
+  Future<Either<Failure, BaseResponse<LoginResponse>>> loginRequest(LoginRequest loginRequest);
+  Future<Either<Failure, BaseResponse<RegisterResponse>>> registerRequest(RegisterRequest registerRequest);
+  Future<Either<Failure, BaseResponse<RegisterDetailsResponse>>> registerDetailsRequest(
+      RegisterDetailsRequest registerDetailsRequest);
+  Future<Either<Failure, BaseResponse>> sendEmailOtpRequest(SendEmailOtpRequest sendEmailOtpRequest);
+  Future<Either<Failure, BaseResponse<EmailOtpVerifyResponse>>> emailOtpVerifyRequest(
       EmailOtpVerifyRequest emailOtpVerifyRequest);
+  Future<Either<Failure, BaseResponse>> resetPasswordRequest(ResetPasswordRequest resetPasswordRequest);
 }
 
 class AuthenticationRepositoryImpl implements AuthenticationRepository {
@@ -20,11 +21,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   AuthenticationRepositoryImpl(this._authenticationRemoteDataSource);
 
   @override
-  Future<Either<Failure, BaseResponse>> loginRequest(
-      LoginRequest loginRequest) async {
+  Future<Either<Failure, BaseResponse<LoginResponse>>> loginRequest(LoginRequest loginRequest) async {
     try {
-      final response =
-          await _authenticationRemoteDataSource.loginRequest(loginRequest);
+      final response = await _authenticationRemoteDataSource.loginRequest(loginRequest);
       return Right(response);
     } catch (error) {
       return Left(FailureExceptionHandler.handle(error).failure);
@@ -35,8 +34,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<Failure, BaseResponse<RegisterResponse>>> registerRequest(
       RegisterRequest registerRequest) async {
     try {
-      final response = await _authenticationRemoteDataSource
-          .registerRequest(registerRequest);
+      final response = await _authenticationRemoteDataSource.registerRequest(registerRequest);
       return Right(response);
     } catch (error) {
       return Left(FailureExceptionHandler.handle(error).failure);
@@ -44,11 +42,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, BaseResponse>> sendEmailOtpRequest(
-      SendEmailOtpRequest sendEmailOtpRequest) async {
+  Future<Either<Failure, BaseResponse>> sendEmailOtpRequest(SendEmailOtpRequest sendEmailOtpRequest) async {
     try {
-      final response = await _authenticationRemoteDataSource
-          .sendEmailOtpRequest(sendEmailOtpRequest);
+      final response = await _authenticationRemoteDataSource.sendEmailOtpRequest(sendEmailOtpRequest);
       return Right(response);
     } catch (error) {
       return Left(FailureExceptionHandler.handle(error).failure);
@@ -56,13 +52,35 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, BaseResponse>> emailOtpVerifyRequest(
+  Future<Either<Failure, BaseResponse<EmailOtpVerifyResponse>>> emailOtpVerifyRequest(
       EmailOtpVerifyRequest emailOtpVerifyRequest) async {
     try {
-      final response = await _authenticationRemoteDataSource
-          .emailOtpVerifyRequest(emailOtpVerifyRequest);
+      final response = await _authenticationRemoteDataSource.emailOtpVerifyRequest(emailOtpVerifyRequest);
       return Right(response);
     } catch (error) {
+      return Left(FailureExceptionHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseResponse>> resetPasswordRequest(
+      ResetPasswordRequest resetPasswordRequest) async {
+    try {
+      final response = await _authenticationRemoteDataSource.resetPasswordRequest(resetPasswordRequest);
+      return Right(response);
+    } catch (error) {
+      return Left(FailureExceptionHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseResponse<RegisterDetailsResponse>>> registerDetailsRequest(
+      RegisterDetailsRequest registerDetailsRequest) async {
+    try {
+      final response = await _authenticationRemoteDataSource.registerDetailsRequest(registerDetailsRequest);
+      return Right(response);
+    } catch (error) {
+      print(error);
       return Left(FailureExceptionHandler.handle(error).failure);
     }
   }

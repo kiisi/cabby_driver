@@ -7,6 +7,8 @@
         android:label="Cabby Driver"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyD5-wZ4wbcqwAsMLb4l6m2AKUn24ul6DdU"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

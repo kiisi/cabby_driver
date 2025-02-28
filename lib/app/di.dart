@@ -1,9 +1,13 @@
 import 'package:cabby_driver/app/app_prefs.dart';
 import 'package:cabby_driver/data/data-source/authentication_remote_data_source.dart';
+import 'package:cabby_driver/data/data-source/cloudinary_remote_data_source.dart';
 import 'package:cabby_driver/data/network/app_api.dart';
+import 'package:cabby_driver/data/network/cloudinary_api.dart';
 import 'package:cabby_driver/data/network/dio_factory.dart';
 import 'package:cabby_driver/data/repository/authentication_repo.dart';
+import 'package:cabby_driver/data/repository/cloudinary_repo.dart';
 import 'package:cabby_driver/domain/usecase/authentication_usecase.dart';
+import 'package:cabby_driver/domain/usecase/cloudinary_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,6 +29,9 @@ Future<void> initAppModule() async {
   final dio = await getIt<DioFactory>().getDio();
   getIt.registerLazySingleton<AppServiceClient>(() => AppServiceClient(dio));
 
+  // cloudinary service client
+  getIt.registerLazySingleton<CloudinaryServiceClient>(() => CloudinaryServiceClient(dio));
+
   // getIt.registerLazySingleton<LocationServiceBloc>(() => LocationServiceBloc());
 
   // getIt.registerLazySingleton<GoogleMapsServiceClient>(
@@ -38,19 +45,26 @@ Future<void> initAppModule() async {
 
   // Authentication
 
-  getIt.registerLazySingleton<AuthenticationRemoteDataSource>(
-      () => AuthenticationRemoteDataSourceImpl(getIt()));
+  getIt.registerLazySingleton<AuthenticationRemoteDataSource>(() => AuthenticationRemoteDataSourceImpl(getIt()));
 
-  getIt.registerLazySingleton<AuthenticationRepository>(
-      () => AuthenticationRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<AuthenticationRepository>(() => AuthenticationRepositoryImpl(getIt()));
 
   getIt.registerLazySingleton<LoginUseCase>(() => LoginUseCase(getIt()));
 
   getIt.registerLazySingleton<RegisterUseCase>(() => RegisterUseCase(getIt()));
 
-  getIt.registerLazySingleton<SendEmailOtpUseCase>(
-      () => SendEmailOtpUseCase(getIt()));
+  getIt.registerLazySingleton<RegisterDetailsUseCase>(() => RegisterDetailsUseCase(getIt()));
 
-  getIt.registerLazySingleton<EmailOtpVerifyUseCase>(
-      () => EmailOtpVerifyUseCase(getIt()));
+  getIt.registerLazySingleton<SendEmailOtpUseCase>(() => SendEmailOtpUseCase(getIt()));
+
+  getIt.registerLazySingleton<EmailOtpVerifyUseCase>(() => EmailOtpVerifyUseCase(getIt()));
+
+  getIt.registerLazySingleton<ResetPasswordUseCase>(() => ResetPasswordUseCase(getIt()));
+
+  // cloudinary
+  getIt.registerLazySingleton<CloudinaryRemoteDataSource>(() => CloudinaryRemoteDataSourceImpl(getIt()));
+
+  getIt.registerLazySingleton<CloudinaryRepository>(() => CloudinaryRepositoryImpl(getIt()));
+
+  getIt.registerLazySingleton<ImageUploadUseCase>(() => ImageUploadUseCase(getIt()));
 }

@@ -9,22 +9,22 @@ class CountryCodePhoneNumberInput extends StatefulWidget {
       {this.errorText,
       this.onTap,
       required this.onCountryCodeSelected,
-      required this.onPhoneNumberChanged,
+      required this.initialCountryCode,
+      this.controller,
       super.key});
 
   final String? errorText;
-  final Function(String) onPhoneNumberChanged;
+  final String? initialCountryCode;
   final Function(CountryCode) onCountryCodeSelected;
+  final TextEditingController? controller;
   final void Function()? onTap;
 
   @override
-  State<CountryCodePhoneNumberInput> createState() =>
-      _CountryCodePhoneNumberInputState();
+  State<CountryCodePhoneNumberInput> createState() => _CountryCodePhoneNumberInputState();
 }
 
-class _CountryCodePhoneNumberInputState
-    extends State<CountryCodePhoneNumberInput> {
-  CountryCode? selectedCountry = CountryCode.fromCode('NG');
+class _CountryCodePhoneNumberInputState extends State<CountryCodePhoneNumberInput> {
+  CountryCode? selectedCountry;
 
   final countryPicker = FlCountryCodePicker(
     filteredCountries: ["AE", "SD", "AU", "KE", "NG"],
@@ -50,16 +50,18 @@ class _CountryCodePhoneNumberInputState
   @override
   void initState() {
     super.initState();
+
+    selectedCountry = CountryCode.fromCode(widget.initialCountryCode);
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       keyboardType: TextInputType.number,
-      onChanged: (value) {
-        widget.onPhoneNumberChanged(value);
-      },
       decoration: InputDecoration(
+        hintText: 'Phone number',
+        hintStyle: TextStyle(color: ColorManager.blueDark, fontWeight: FontWeight.w300),
         errorText: widget.errorText,
         prefixIcon: Padding(
           padding: const EdgeInsets.only(left: AppSize.s12),
