@@ -548,7 +548,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
 
       Future.delayed(const Duration(milliseconds: 1500), () {
         if (mounted) {
-          context.router.replaceAll([const ActivityRoute()]);
+          context.router.replaceAll([const OverviewRoute()]);
         }
       });
     });

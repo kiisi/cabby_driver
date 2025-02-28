@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-@RoutePage()
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
 

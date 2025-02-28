@@ -10,14 +10,14 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i10;
 import 'package:cabby_driver/features/auth/forgot_password.dart' as _i3;
-import 'package:cabby_driver/features/auth/login.dart' as _i5;
-import 'package:cabby_driver/features/auth/otp.dart' as _i6;
+import 'package:cabby_driver/features/auth/login.dart' as _i4;
+import 'package:cabby_driver/features/auth/otp.dart' as _i5;
 import 'package:cabby_driver/features/auth/register.dart' as _i8;
 import 'package:cabby_driver/features/auth/register_details.dart' as _i7;
 import 'package:cabby_driver/features/auth/reset_password.dart' as _i9;
 import 'package:cabby_driver/features/home/account.dart' as _i1;
 import 'package:cabby_driver/features/home/activity.dart' as _i2;
-import 'package:cabby_driver/features/home/history.dart' as _i4;
+import 'package:cabby_driver/features/home/overview.dart' as _i6;
 
 /// generated route for
 /// [_i1.AccountScreen]
@@ -77,26 +77,7 @@ class ForgotPasswordRoute extends _i10.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.HistoryScreen]
-class HistoryRoute extends _i10.PageRouteInfo<void> {
-  const HistoryRoute({List<_i10.PageRouteInfo>? children})
-      : super(
-          HistoryRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'HistoryRoute';
-
-  static _i10.PageInfo page = _i10.PageInfo(
-    name,
-    builder: (data) {
-      return const _i4.HistoryScreen();
-    },
-  );
-}
-
-/// generated route for
-/// [_i5.LoginScreen]
+/// [_i4.LoginScreen]
 class LoginRoute extends _i10.PageRouteInfo<void> {
   const LoginRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -109,13 +90,13 @@ class LoginRoute extends _i10.PageRouteInfo<void> {
   static _i10.PageInfo page = _i10.PageInfo(
     name,
     builder: (data) {
-      return const _i5.LoginScreen();
+      return const _i4.LoginScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i6.OtpScreen]
+/// [_i5.OtpScreen]
 class OtpRoute extends _i10.PageRouteInfo<void> {
   const OtpRoute({List<_i10.PageRouteInfo>? children})
       : super(
@@ -128,7 +109,26 @@ class OtpRoute extends _i10.PageRouteInfo<void> {
   static _i10.PageInfo page = _i10.PageInfo(
     name,
     builder: (data) {
-      return const _i6.OtpScreen();
+      return const _i5.OtpScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i6.OverviewScreen]
+class OverviewRoute extends _i10.PageRouteInfo<void> {
+  const OverviewRoute({List<_i10.PageRouteInfo>? children})
+      : super(
+          OverviewRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OverviewRoute';
+
+  static _i10.PageInfo page = _i10.PageInfo(
+    name,
+    builder: (data) {
+      return const _i6.OverviewScreen();
     },
   );
 }

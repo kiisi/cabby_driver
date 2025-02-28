@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Future.delayed(const Duration(milliseconds: 1500), () {
         if (mounted) {
           if (success.data?.user.isRegistrationComplete == true) {
-            context.router.replaceAll([const ActivityRoute()]);
+            context.router.replaceAll([const OverviewRoute()]);
           } else {
             context.router.replaceNamed('/register-details');
           }

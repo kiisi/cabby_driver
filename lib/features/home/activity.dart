@@ -9,7 +9,6 @@ import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-@RoutePage()
 class ActivityScreen extends StatefulWidget {
   const ActivityScreen({super.key});
 
@@ -71,49 +70,50 @@ class _ActivityScreenState extends State<ActivityScreen> {
             },
           ),
           Positioned(
-              top: 50,
-              left: 10,
-              right: 10,
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 240),
-                  child: Builder(
-                    builder: (context) => Material(
-                      elevation: 2.0,
-                      borderRadius: BorderRadius.circular(AppSize.s50),
-                      child: SwipeButton(
-                        width: double.infinity,
-                        thumb: const Icon(
-                          Icons.double_arrow_rounded,
-                          color: Colors.white,
-                        ),
-                        activeThumbColor: isOnline ? Colors.green : Colors.black,
-                        activeTrackColor: isOnline ? Colors.green : const Color(0xfff6f6f6),
-                        onSwipeEnd: () {
-                          setState(() {
-                            isOnline = !isOnline;
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Swipped"),
-                              backgroundColor: Colors.green,
-                            ),
-                          );
-                        },
-                        child: Text(
-                          isOnline ? "ONLINE" : "GO ONLINE",
-                          style: TextStyle(
-                            color: isOnline ? Colors.white : Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
+            top: 45,
+            left: 10,
+            right: 10,
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                constraints: const BoxConstraints(maxWidth: 240),
+                child: Builder(
+                  builder: (context) => Material(
+                    elevation: 2.0,
+                    borderRadius: BorderRadius.circular(AppSize.s50),
+                    child: SwipeButton(
+                      width: double.infinity,
+                      thumb: const Icon(
+                        Icons.double_arrow_rounded,
+                        color: Colors.white,
+                      ),
+                      activeThumbColor: isOnline ? Colors.green : Colors.black,
+                      activeTrackColor: isOnline ? Colors.green : const Color(0xfff6f6f6),
+                      onSwipeEnd: () {
+                        setState(() {
+                          isOnline = !isOnline;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Swipped"),
+                            backgroundColor: Colors.green,
                           ),
+                        );
+                      },
+                      child: Text(
+                        isOnline ? "ONLINE" : "GO ONLINE",
+                        style: TextStyle(
+                          color: isOnline ? Colors.white : Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
                         ),
                       ),
                     ),
                   ),
                 ),
-              )),
+              ),
+            ),
+          ),
         ],
       ),
     );
