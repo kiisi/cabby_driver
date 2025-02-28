@@ -27,12 +27,13 @@ class CustomFlushbar {
     required BuildContext context,
     required String message,
     Duration duration = const Duration(seconds: 3),
+    flushbarPosition = FlushbarPosition.TOP,
   }) {
     Flushbar(
       flushbarStyle: FlushbarStyle.GROUNDED,
       icon: Icon(Icons.task_alt, color: ColorManager.white),
       shouldIconPulse: false,
-      flushbarPosition: FlushbarPosition.TOP,
+      flushbarPosition: flushbarPosition,
       backgroundColor: ColorManager.primary,
       reverseAnimationCurve: Curves.linear,
       forwardAnimationCurve: Curves.linear,

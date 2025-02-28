@@ -5,6 +5,7 @@ import 'package:cabby_driver/core/common/custom_flushbar.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
 import 'package:cabby_driver/core/resources/values_manager.dart';
 import 'package:cabby_driver/core/routes/app_router.gr.dart';
+import 'package:cabby_driver/data/network/socket.dart';
 import 'package:cabby_driver/data/request/authentication_request.dart';
 import 'package:cabby_driver/domain/usecase/authentication_usecase.dart';
 import 'package:flutter/gestures.dart';
@@ -21,6 +22,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
+
+  final SocketServiceClient socketServiceClient = SocketServiceClient();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -48,6 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
       _appPreferences.setAccessToken(success.data?.accessToken);
       _appPreferences.setUserEmail(success.data?.user.email ?? '');
+      _appPreferences.setUserId(success.data?.user.id ?? '');
+
+      socketServiceClient.connect(success.data?.user.id);
 
       Future.delayed(const Duration(milliseconds: 1500), () {
         if (mounted) {

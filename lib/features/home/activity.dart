@@ -1,7 +1,13 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:cabby_driver/app/app_prefs.dart';
+import 'package:cabby_driver/app/di.dart';
+import 'package:cabby_driver/core/common/custom_flushbar.dart';
 import 'package:cabby_driver/core/resources/color_manager.dart';
 import 'package:cabby_driver/core/resources/values_manager.dart';
 import 'package:cabby_driver/core/services/location_service.dart';
+import 'package:cabby_driver/data/request/activity_request.dart';
+import 'package:cabby_driver/domain/usecase/activity_usecase.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +28,16 @@ class _ActivityScreenState extends State<ActivityScreen> {
   final LocationService _locationService = LocationService();
 
   late CameraPosition _kGooglePlex;
-  // final AppPreferences _appPreferences = getIt<AppPreferences>();
+  final AppPreferences _appPreferences = getIt<AppPreferences>();
+
+  final ActivityUsecase _activityUsecase = getIt<ActivityUsecase>();
 
   bool isOnline = false;
 
   @override
   void initState() {
+    isOnline = _appPreferences.getIsOnlineStatus();
+
     _kGooglePlex = const CameraPosition(
       target: LatLng(37.43296265331129, -122.08832357078792),
       zoom: 18,
@@ -49,6 +59,25 @@ class _ActivityScreenState extends State<ActivityScreen> {
         CameraPosition(target: LatLng(position.latitude, position.longitude), zoom: 17),
       ),
     );
+  }
+
+  void toggleOnlineStatus() async {
+    setState(() {
+      isOnline = !isOnline;
+    });
+
+    (await _activityUsecase.execute(
+      SetOnlineStatusRequest(id: _appPreferences.getUserId(), isOnline: isOnline),
+    ))
+        .fold((failure) {
+      CustomFlushbar.showErrorFlushBar(context: context, message: failure.message);
+    }, (success) {
+      CustomFlushbar.showSuccessSnackBar(
+        context: context,
+        // flushbarPosition: FlushbarPosition.TOP,
+        message: success.message ?? '',
+      );
+    });
   }
 
   @override
@@ -90,15 +119,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                       activeThumbColor: isOnline ? Colors.green : Colors.black,
                       activeTrackColor: isOnline ? Colors.green : const Color(0xfff6f6f6),
                       onSwipeEnd: () {
-                        setState(() {
-                          isOnline = !isOnline;
-                        });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Swipped"),
-                            backgroundColor: Colors.green,
-                          ),
-                        );
+                        toggleOnlineStatus();
                       },
                       child: Text(
                         isOnline ? "ONLINE" : "GO ONLINE",

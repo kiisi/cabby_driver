@@ -14,7 +14,7 @@ class _AppServiceClient implements AppServiceClient {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'http://192.168.0.198:5000/api/v1';
+    baseUrl ??= 'http://192.168.0.199:5000/api/v1';
   }
 
   final Dio _dio;
@@ -350,6 +350,50 @@ class _AppServiceClient implements AppServiceClient {
       _value = BaseResponse<dynamic>.fromJson(
         _result.data!,
         (json) => json as dynamic,
+      );
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<BaseResponse<SetOnlineStatusResponse>> setOnlineStatus({
+    required String id,
+    required bool isOnline,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = {
+      'id': id,
+      'isOnline': isOnline,
+    };
+    final _options =
+        _setStreamType<BaseResponse<SetOnlineStatusResponse>>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/auth/driver/set-online-status',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late BaseResponse<SetOnlineStatusResponse> _value;
+    try {
+      _value = BaseResponse<SetOnlineStatusResponse>.fromJson(
+        _result.data!,
+        (json) =>
+            SetOnlineStatusResponse.fromJson(json as Map<String, dynamic>),
       );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);

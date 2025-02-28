@@ -72,4 +72,10 @@ abstract class AppServiceClient {
 
   @GET('/auth/user-auth')
   Future<BaseResponse> userAuth();
+
+  @PATCH('/auth/driver/set-online-status')
+  Future<BaseResponse<SetOnlineStatusResponse>> setOnlineStatus({
+    @Field("id") required String id,
+    @Field("isOnline") required bool isOnline,
+  });
 }

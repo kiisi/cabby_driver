@@ -3,7 +3,7 @@ class Constant {
   // static const String baseUrl = "http://192.168.0.182:5000/api/v1"; // redmi
 
   // static const String baseUrl = "http://192.168.0.128:5000/api/v1"; // tecno
-  static const String baseUrl = "http://192.168.0.198:5000/api/v1"; // tecno - airtel
+  static const String baseUrl = "http://192.168.0.199:5000/api/v1"; // tecno - airtel
   // static const String baseUrl = "http://192.168.43.217:5000/api/v1"; // tecno - hotspot
 
   static const String cloudinaryBaseUrl = 'https://api.cloudinary.com/v1_1/dhaamr7kd';

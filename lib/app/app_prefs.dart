@@ -14,6 +14,8 @@ const String prefsKeyUserLastName = "PREFS_KEY_USER_LAST_NAME";
 const String prefsKeyUserGender = "PREFS_KEY_USER_GENDER";
 const String prefsKeyForgotPasswordEmail = "PREFS_KEY_FORGOT_PASSWORD_EMAIL";
 const String prefsKeyEmailOtpId = "PREFS_KEY_EMAIL_OTP_ID";
+const String prefsKeyIsOnline = "PREFS_KEY_IS_ONLINE";
+const String prefsKeyUserId = "PREFS_KEY_USER_ID";
 
 class AppPreferences {
   final SharedPreferences _sharedPreferences;
@@ -58,6 +60,14 @@ class AppPreferences {
 
   String getUserEmail() {
     return _sharedPreferences.getString(prefsKeyUserEmail) ?? '';
+  }
+
+  Future<void> setUserId(String id) async {
+    _sharedPreferences.setString(prefsKeyUserId, id);
+  }
+
+  String getUserId() {
+    return _sharedPreferences.getString(prefsKeyUserId) ?? '';
   }
 
   Future<void> setForgotPasswordEmail(String email) async {
@@ -114,6 +124,14 @@ class AppPreferences {
 
   String getUserGender() {
     return _sharedPreferences.getString(prefsKeyUserGender) ?? '';
+  }
+
+  Future<void> setIsOnlineStatus(bool isOnline) async {
+    _sharedPreferences.setBool(prefsKeyIsOnline, isOnline);
+  }
+
+  bool getIsOnlineStatus() {
+    return _sharedPreferences.getBool(prefsKeyIsOnline) ?? false;
   }
 
   Future<void> logout() async {

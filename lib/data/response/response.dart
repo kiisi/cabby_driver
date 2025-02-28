@@ -288,3 +288,16 @@ class RegisterDetailsResponse {
 
   Map<String, dynamic> toJson() => _$RegisterDetailsResponseToJson(this);
 }
+
+@JsonSerializable()
+class SetOnlineStatusResponse {
+  @JsonKey(name: 'user')
+  User user;
+
+  SetOnlineStatusResponse({required this.user});
+
+  factory SetOnlineStatusResponse.fromJson(Map<String, dynamic> json) =>
+      _$SetOnlineStatusResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SetOnlineStatusResponseToJson(this);
+}

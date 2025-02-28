@@ -17,7 +17,7 @@ class DioFactory {
 
   Future<Dio> getDio() async {
     Dio dio = Dio();
-    const Duration timeout = Duration(milliseconds: 16 * 1000);
+    const Duration timeout = Duration(milliseconds: 15 * 1000);
     String language = "en";
 
     Map<String, dynamic>? headers = {

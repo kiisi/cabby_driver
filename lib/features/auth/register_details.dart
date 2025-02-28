@@ -10,6 +10,7 @@ import 'package:cabby_driver/core/routes/app_router.gr.dart';
 import 'package:cabby_driver/core/widgets/country_code_phone_number_input.dart';
 import 'package:cabby_driver/core/widgets/custom_button.dart';
 import 'package:cabby_driver/data/network/cloudinary_api.dart';
+import 'package:cabby_driver/data/network/socket.dart';
 import 'package:cabby_driver/data/request/authentication_request.dart';
 import 'package:cabby_driver/data/request/cloudinary_request.dart';
 import 'package:cabby_driver/domain/usecase/authentication_usecase.dart';
@@ -38,6 +39,10 @@ class RegisterDetailsScreen extends StatefulWidget {
 
 class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  final AppPreferences _appPreferences = getIt<AppPreferences>();
+
+  final SocketServiceClient socketServiceClient = SocketServiceClient();
 
   final AppPreferences _appPreference = getIt<AppPreferences>();
 
@@ -545,6 +550,9 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
       setState(() {
         isLoading = false;
       });
+
+      _appPreferences.setUserId(success.data?.user.id ?? '');
+      socketServiceClient.connect(success.data?.user.id);
 
       Future.delayed(const Duration(milliseconds: 1500), () {
         if (mounted) {

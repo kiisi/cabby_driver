@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cabby_driver/app/di.dart';
 import 'package:cabby_driver/core/resources/theme_manager.dart';
 import 'package:cabby_driver/core/routes/app_router.dart';
+import 'package:cabby_driver/data/network/socket.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
@@ -49,10 +50,20 @@ Future<AndroidMapRenderer?> initializeMapRenderer() async {
   return completer.future;
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final _appRouter = AppRouter();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   // This widget is the root of your application.
   @override

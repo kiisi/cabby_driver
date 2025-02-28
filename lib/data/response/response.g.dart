@@ -217,3 +217,15 @@ Map<String, dynamic> _$RegisterDetailsResponseToJson(
     <String, dynamic>{
       'user': instance.user,
     };
+
+SetOnlineStatusResponse _$SetOnlineStatusResponseFromJson(
+        Map<String, dynamic> json) =>
+    SetOnlineStatusResponse(
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$SetOnlineStatusResponseToJson(
+        SetOnlineStatusResponse instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+    };

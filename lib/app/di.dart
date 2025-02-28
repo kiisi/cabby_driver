@@ -1,11 +1,14 @@
 import 'package:cabby_driver/app/app_prefs.dart';
+import 'package:cabby_driver/data/data-source/activity_remote_data_source.dart';
 import 'package:cabby_driver/data/data-source/authentication_remote_data_source.dart';
 import 'package:cabby_driver/data/data-source/cloudinary_remote_data_source.dart';
 import 'package:cabby_driver/data/network/app_api.dart';
 import 'package:cabby_driver/data/network/cloudinary_api.dart';
 import 'package:cabby_driver/data/network/dio_factory.dart';
+import 'package:cabby_driver/data/repository/activity_repo.dart';
 import 'package:cabby_driver/data/repository/authentication_repo.dart';
 import 'package:cabby_driver/data/repository/cloudinary_repo.dart';
+import 'package:cabby_driver/domain/usecase/activity_usecase.dart';
 import 'package:cabby_driver/domain/usecase/authentication_usecase.dart';
 import 'package:cabby_driver/domain/usecase/cloudinary_usecase.dart';
 import 'package:get_it/get_it.dart';
@@ -45,7 +48,8 @@ Future<void> initAppModule() async {
 
   // Authentication
 
-  getIt.registerLazySingleton<AuthenticationRemoteDataSource>(() => AuthenticationRemoteDataSourceImpl(getIt()));
+  getIt.registerLazySingleton<AuthenticationRemoteDataSource>(
+      () => AuthenticationRemoteDataSourceImpl(getIt()));
 
   getIt.registerLazySingleton<AuthenticationRepository>(() => AuthenticationRepositoryImpl(getIt()));
 
@@ -67,4 +71,11 @@ Future<void> initAppModule() async {
   getIt.registerLazySingleton<CloudinaryRepository>(() => CloudinaryRepositoryImpl(getIt()));
 
   getIt.registerLazySingleton<ImageUploadUseCase>(() => ImageUploadUseCase(getIt()));
+
+  // activity
+  getIt.registerLazySingleton<ActivityRemoteDataSource>(() => ActivityRemoteDataSourceImpl(getIt()));
+
+  getIt.registerLazySingleton<ActivityRepository>(() => ActivityRepositoryImpl(getIt()));
+
+  getIt.registerLazySingleton<ActivityUsecase>(() => ActivityUsecase(getIt()));
 }
