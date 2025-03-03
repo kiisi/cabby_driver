@@ -10,6 +10,13 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Ride History'),
+      ),
+      body: const Center(
+        child: Text('Ride history'),
+      ),
+    );
   }
 }

@@ -99,7 +99,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
             },
           ),
           Positioned(
-            top: 45,
+            top: 20,
             left: 10,
             right: 10,
             child: Align(

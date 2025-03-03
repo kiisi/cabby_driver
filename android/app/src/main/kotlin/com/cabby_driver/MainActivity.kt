@@ -1,4 +1,4 @@
-package com.example.cabby_driver
+package com.cabby_driver
 
 import io.flutter.embedding.android.FlutterActivity
 

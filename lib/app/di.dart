@@ -11,6 +11,7 @@ import 'package:cabby_driver/data/repository/cloudinary_repo.dart';
 import 'package:cabby_driver/domain/usecase/activity_usecase.dart';
 import 'package:cabby_driver/domain/usecase/authentication_usecase.dart';
 import 'package:cabby_driver/domain/usecase/cloudinary_usecase.dart';
+import 'package:cabby_driver/features/home/location-appbar.dart/bloc/location_service_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,6 +25,9 @@ Future<void> initAppModule() async {
 
   // Register AppPreferences as a singleton
   getIt.registerLazySingleton<AppPreferences>(() => AppPreferences(getIt()));
+
+  // location service
+  getIt.registerLazySingleton<LocationServiceBloc>(() => LocationServiceBloc());
 
   // dio factory
   getIt.registerLazySingleton<DioFactory>(() => DioFactory(getIt()));
