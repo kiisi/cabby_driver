@@ -7,6 +7,18 @@ abstract interface class AuthenticationRemoteDataSource {
 
   Future<BaseResponse<RegisterResponse>> registerRequest(RegisterRequest registerRequest);
 
+  Future<BaseResponse<DriverPersonalInfoResponse>> driverPersonalInfoRequest(
+      DriverPersonalInfoRequest driverPersonalInfoRequest);
+
+  Future<BaseResponse<DriverLicenseInfoResponse>> driverLicenseInfoRequest(
+      DriverLicenseInfoRequest driverLicenseInfoRequest);
+
+  Future<BaseResponse<DriverVehicleInfoResponse>> driverVehicleInfoRequest(
+      DriverVehicleInfoRequest driverVehicleInfoRequest);
+
+  Future<BaseResponse<DriverVehiclePhotosResponse>> driverVehiclePhotosRequest(
+      DriverVehiclePhotosRequest driverVehiclePhotosRequest);
+
   Future<BaseResponse<RegisterDetailsResponse>> registerDetailsRequest(
       RegisterDetailsRequest registerDetailsRequest);
 
@@ -94,6 +106,60 @@ class AuthenticationRemoteDataSourceImpl implements AuthenticationRemoteDataSour
       vehiclePhotoRightSideView: registerDetailsRequest.vehiclePhotoRightSideView,
       vehicleRegistrationNumber: registerDetailsRequest.vehicleRegistrationNumber,
       vehicleYear: registerDetailsRequest.vehicleYear,
+    );
+  }
+
+  @override
+  Future<BaseResponse<DriverLicenseInfoResponse>> driverLicenseInfoRequest(
+      DriverLicenseInfoRequest driverLicenseInfoRequest) async {
+    return await _appServiceClient.driverLicenseInfo(
+      email: driverLicenseInfoRequest.email,
+      driverLicenseNumber: driverLicenseInfoRequest.driverLicenseNumber,
+      driverLicenseExpirationDate: driverLicenseInfoRequest.driverLicenseExpirationDate,
+      driverLicenseType: driverLicenseInfoRequest.driverLicenseType,
+      countryOfIssue: driverLicenseInfoRequest.countryOfIssue,
+      driverLicensePhotoFront: driverLicenseInfoRequest.driverLicensePhotoFront,
+      driverLicensePhotoBack: driverLicenseInfoRequest.driverLicensePhotoBack,
+    );
+  }
+
+  @override
+  Future<BaseResponse<DriverPersonalInfoResponse>> driverPersonalInfoRequest(
+      DriverPersonalInfoRequest driverPersonalInfoRequest) async {
+    return await _appServiceClient.driverPersonalInfo(
+      email: driverPersonalInfoRequest.email,
+      fullLegalName: driverPersonalInfoRequest.fullLegalName,
+      dateOfBirth: driverPersonalInfoRequest.dateOfBirth,
+      currentAddress: driverPersonalInfoRequest.currentAddress,
+      countryCode: driverPersonalInfoRequest.countryCode,
+      phoneNumber: driverPersonalInfoRequest.phoneNumber,
+      profilePhoto: driverPersonalInfoRequest.profilePhoto,
+    );
+  }
+
+  @override
+  Future<BaseResponse<DriverVehicleInfoResponse>> driverVehicleInfoRequest(
+      DriverVehicleInfoRequest driverVehicleInfoRequest) async {
+    return await _appServiceClient.driverVehicleInfo(
+      email: driverVehicleInfoRequest.email,
+      vehicleMake: driverVehicleInfoRequest.vehicleMake,
+      vehicleModel: driverVehicleInfoRequest.vehicleModel,
+      vehicleYear: driverVehicleInfoRequest.vehicleYear,
+      vehicleColor: driverVehicleInfoRequest.vehicleColor,
+      vehicleLicensePlateNumber: driverVehicleInfoRequest.vehicleLicensePlateNumber,
+      vehicleRegistrationNumber: driverVehicleInfoRequest.vehicleRegistrationNumber,
+    );
+  }
+
+  @override
+  Future<BaseResponse<DriverVehiclePhotosResponse>> driverVehiclePhotosRequest(
+      DriverVehiclePhotosRequest driverVehiclePhotosRequest) async {
+    return await _appServiceClient.driverVehiclePhotos(
+      email: driverVehiclePhotosRequest.email,
+      vehiclePhotoFrontView: driverVehiclePhotosRequest.vehiclePhotoFrontView,
+      vehiclePhotoBackView: driverVehiclePhotosRequest.vehiclePhotoBackView,
+      vehiclePhotoRightSideView: driverVehiclePhotosRequest.vehiclePhotoRightSideView,
+      vehiclePhotoLeftSideView: driverVehiclePhotosRequest.vehiclePhotoLeftSideView,
     );
   }
 }

@@ -57,11 +57,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
       Future.delayed(const Duration(milliseconds: 1500), () {
         if (mounted) {
-          if (success.data?.user.isRegistrationComplete == true) {
-            context.router.replaceAll([const OverviewRoute()]);
-          } else {
-            context.router.replaceNamed('/register-details');
-          }
+          context.router.replaceAll([const HomeRoute()]);
+
+          // if (success.data?.user.isRegistrationComplete == true) {
+          //   context.router.replaceAll([const OverviewRoute()]);
+          // } else {
+          //   // context.router.pushNamed('/driver-personal-info');
+          //   context.router.replaceAll([const OverviewRoute()]);
+          // }
         }
       });
 

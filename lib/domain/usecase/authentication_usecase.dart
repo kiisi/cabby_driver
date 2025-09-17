@@ -27,7 +27,8 @@ class RegisterUseCase implements BaseUseCase<RegisterRequest, BaseResponse<Regis
   }
 }
 
-class RegisterDetailsUseCase implements BaseUseCase<RegisterDetailsRequest, BaseResponse<RegisterDetailsResponse>> {
+class RegisterDetailsUseCase
+    implements BaseUseCase<RegisterDetailsRequest, BaseResponse<RegisterDetailsResponse>> {
   final AuthenticationRepository _authenticationRepository;
 
   RegisterDetailsUseCase(this._authenticationRepository);
@@ -49,7 +50,8 @@ class SendEmailOtpUseCase implements BaseUseCase<SendEmailOtpRequest, BaseRespon
   }
 }
 
-class EmailOtpVerifyUseCase implements BaseUseCase<EmailOtpVerifyRequest, BaseResponse<EmailOtpVerifyResponse>> {
+class EmailOtpVerifyUseCase
+    implements BaseUseCase<EmailOtpVerifyRequest, BaseResponse<EmailOtpVerifyResponse>> {
   final AuthenticationRepository _authenticationRepository;
 
   EmailOtpVerifyUseCase(this._authenticationRepository);
@@ -68,5 +70,57 @@ class ResetPasswordUseCase implements BaseUseCase<ResetPasswordRequest, BaseResp
   @override
   Future<Either<Failure, BaseResponse>> execute(ResetPasswordRequest input) async {
     return await _authenticationRepository.resetPasswordRequest(input);
+  }
+}
+
+class DriverPersonalInfoUseCase
+    implements BaseUseCase<DriverPersonalInfoRequest, BaseResponse<DriverPersonalInfoResponse>> {
+  final AuthenticationRepository _authenticationRepository;
+
+  DriverPersonalInfoUseCase(this._authenticationRepository);
+
+  @override
+  Future<Either<Failure, BaseResponse<DriverPersonalInfoResponse>>> execute(
+      DriverPersonalInfoRequest input) async {
+    return await _authenticationRepository.driverPersonalInfoRequest(input);
+  }
+}
+
+class DriverLicenseInfoUseCase
+    implements BaseUseCase<DriverLicenseInfoRequest, BaseResponse<DriverLicenseInfoResponse>> {
+  final AuthenticationRepository _authenticationRepository;
+
+  DriverLicenseInfoUseCase(this._authenticationRepository);
+
+  @override
+  Future<Either<Failure, BaseResponse<DriverLicenseInfoResponse>>> execute(
+      DriverLicenseInfoRequest input) async {
+    return await _authenticationRepository.driverLicenseInfoRequest(input);
+  }
+}
+
+class DriverVehicleInfoUseCase
+    implements BaseUseCase<DriverVehicleInfoRequest, BaseResponse<DriverVehicleInfoResponse>> {
+  final AuthenticationRepository _authenticationRepository;
+
+  DriverVehicleInfoUseCase(this._authenticationRepository);
+
+  @override
+  Future<Either<Failure, BaseResponse<DriverVehicleInfoResponse>>> execute(
+      DriverVehicleInfoRequest input) async {
+    return await _authenticationRepository.driverVehicleInfoRequest(input);
+  }
+}
+
+class DriverVehiclePhotosUseCase
+    implements BaseUseCase<DriverVehiclePhotosRequest, BaseResponse<DriverVehiclePhotosResponse>> {
+  final AuthenticationRepository _authenticationRepository;
+
+  DriverVehiclePhotosUseCase(this._authenticationRepository);
+
+  @override
+  Future<Either<Failure, BaseResponse<DriverVehiclePhotosResponse>>> execute(
+      DriverVehiclePhotosRequest input) async {
+    return await _authenticationRepository.driverVehiclePhotosRequest(input);
   }
 }

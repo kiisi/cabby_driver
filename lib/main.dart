@@ -6,6 +6,7 @@ import 'package:cabby_driver/core/resources/theme_manager.dart';
 import 'package:cabby_driver/core/routes/app_router.dart';
 import 'package:cabby_driver/core/services/location_service.dart';
 import 'package:cabby_driver/data/network/socket.dart';
+import 'package:cabby_driver/features/home/blocs/ride/ride_bloc.dart';
 import 'package:cabby_driver/features/home/location-appbar.dart/bloc/location_service_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -105,6 +106,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider<LocationServiceBloc>(
           create: (BuildContext context) => getIt<LocationServiceBloc>(),
+        ),
+        BlocProvider<RideBloc>(
+          create: (BuildContext context) => getIt<RideBloc>(),
         ),
       ],
       child: MaterialApp.router(

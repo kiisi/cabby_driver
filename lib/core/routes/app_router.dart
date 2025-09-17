@@ -11,6 +11,11 @@ class AppRouter extends RootStackRouter {
         AutoRoute(path: '/otp', page: OtpRoute.page),
         AutoRoute(path: '/reset-password', page: ResetPasswordRoute.page),
         AutoRoute(path: '/register-details', page: RegisterDetailsRoute.page),
+        AutoRoute(path: '/driver-personal-info', page: DriverPersonalInfoRoute.page),
+        AutoRoute(path: '/driver-license-info', page: DriverLicenseInfoRoute.page),
+        AutoRoute(path: '/driver-vehicle-info', page: DriverVehicleInfoRoute.page),
+        AutoRoute(path: '/driver-vehicle-photos', page: DriverVehiclePhotosRoute.page),
         AutoRoute(path: '/overview', page: OverviewRoute.page),
+        AutoRoute(path: '/home', page: HomeRoute.page),
       ];
 }

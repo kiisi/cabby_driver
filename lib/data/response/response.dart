@@ -277,6 +277,58 @@ class ImageUploadResponse {
 }
 
 @JsonSerializable()
+class DriverPersonalInfoResponse {
+  @JsonKey(name: 'user')
+  User user;
+
+  DriverPersonalInfoResponse({required this.user});
+
+  factory DriverPersonalInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$DriverPersonalInfoResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DriverPersonalInfoResponseToJson(this);
+}
+
+@JsonSerializable()
+class DriverLicenseInfoResponse {
+  @JsonKey(name: 'user')
+  User user;
+
+  DriverLicenseInfoResponse({required this.user});
+
+  factory DriverLicenseInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$DriverLicenseInfoResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DriverLicenseInfoResponseToJson(this);
+}
+
+@JsonSerializable()
+class DriverVehicleInfoResponse {
+  @JsonKey(name: 'user')
+  User user;
+
+  DriverVehicleInfoResponse({required this.user});
+
+  factory DriverVehicleInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$DriverVehicleInfoResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DriverVehicleInfoResponseToJson(this);
+}
+
+@JsonSerializable()
+class DriverVehiclePhotosResponse {
+  @JsonKey(name: 'user')
+  User user;
+
+  DriverVehiclePhotosResponse({required this.user});
+
+  factory DriverVehiclePhotosResponse.fromJson(Map<String, dynamic> json) =>
+      _$DriverVehiclePhotosResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DriverVehiclePhotosResponseToJson(this);
+}
+
+@JsonSerializable()
 class RegisterDetailsResponse {
   @JsonKey(name: 'user')
   User user;

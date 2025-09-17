@@ -6,11 +6,7 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String label;
 
-  CustomButton(
-      {super.key,
-      this.isLoading = false,
-      required this.onPressed,
-      required this.label});
+  CustomButton({super.key, this.isLoading = false, required this.onPressed, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +21,7 @@ class CustomButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
           ),
         ),
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         child: isLoading
             ? const SpinKitFadingCircle(
                 color: Colors.white,

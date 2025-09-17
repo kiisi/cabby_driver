@@ -55,12 +55,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       _appPreferences.setAccessToken(success.data?.accessToken);
 
-      _appPreferences.setAccessToken(success.data?.user.email);
+      _appPreferences.setUserEmail(success.data?.user.email ?? '');
       _appPreferences.setUserId(success.data?.user.id ?? '');
 
       Future.delayed(const Duration(milliseconds: 1500), () {
         if (mounted) {
-          context.router.replaceNamed('/register-details');
+          context.router.replaceNamed('/driver-personal-info');
         }
       });
     });

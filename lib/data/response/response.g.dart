@@ -206,6 +206,54 @@ Map<String, dynamic> _$ImageUploadResponseToJson(
       'originalFilename': instance.originalFilename,
     };
 
+DriverPersonalInfoResponse _$DriverPersonalInfoResponseFromJson(
+        Map<String, dynamic> json) =>
+    DriverPersonalInfoResponse(
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$DriverPersonalInfoResponseToJson(
+        DriverPersonalInfoResponse instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+    };
+
+DriverLicenseInfoResponse _$DriverLicenseInfoResponseFromJson(
+        Map<String, dynamic> json) =>
+    DriverLicenseInfoResponse(
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$DriverLicenseInfoResponseToJson(
+        DriverLicenseInfoResponse instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+    };
+
+DriverVehicleInfoResponse _$DriverVehicleInfoResponseFromJson(
+        Map<String, dynamic> json) =>
+    DriverVehicleInfoResponse(
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$DriverVehicleInfoResponseToJson(
+        DriverVehicleInfoResponse instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+    };
+
+DriverVehiclePhotosResponse _$DriverVehiclePhotosResponseFromJson(
+        Map<String, dynamic> json) =>
+    DriverVehiclePhotosResponse(
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$DriverVehiclePhotosResponseToJson(
+        DriverVehiclePhotosResponse instance) =>
+    <String, dynamic>{
+      'user': instance.user,
+    };
+
 RegisterDetailsResponse _$RegisterDetailsResponseFromJson(
         Map<String, dynamic> json) =>
     RegisterDetailsResponse(

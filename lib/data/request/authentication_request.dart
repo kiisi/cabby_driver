@@ -51,6 +51,82 @@ class ResetPasswordRequest {
   });
 }
 
+class DriverPersonalInfoRequest {
+  String email;
+  String countryCode;
+  String phoneNumber;
+  String profilePhoto;
+  String fullLegalName;
+  String dateOfBirth;
+  String currentAddress;
+
+  DriverPersonalInfoRequest({
+    required this.email,
+    required this.profilePhoto,
+    required this.countryCode,
+    required this.phoneNumber,
+    required this.fullLegalName,
+    required this.dateOfBirth,
+    required this.currentAddress,
+  });
+}
+
+class DriverLicenseInfoRequest {
+  String email;
+  String driverLicenseNumber;
+  String driverLicenseExpirationDate;
+  String driverLicenseType;
+  String countryOfIssue;
+  String driverLicensePhotoFront;
+  String driverLicensePhotoBack;
+
+  DriverLicenseInfoRequest({
+    required this.email,
+    required this.driverLicenseNumber,
+    required this.driverLicenseExpirationDate,
+    required this.driverLicenseType,
+    required this.countryOfIssue,
+    required this.driverLicensePhotoFront,
+    required this.driverLicensePhotoBack,
+  });
+}
+
+class DriverVehicleInfoRequest {
+  String email;
+  String vehicleMake;
+  String vehicleModel;
+  String vehicleYear;
+  String vehicleLicensePlateNumber;
+  String vehicleColor;
+  String vehicleRegistrationNumber;
+
+  DriverVehicleInfoRequest({
+    required this.email,
+    required this.vehicleMake,
+    required this.vehicleModel,
+    required this.vehicleYear,
+    required this.vehicleLicensePlateNumber,
+    required this.vehicleColor,
+    required this.vehicleRegistrationNumber,
+  });
+}
+
+class DriverVehiclePhotosRequest {
+  String email;
+  String vehiclePhotoFrontView;
+  String vehiclePhotoBackView;
+  String vehiclePhotoRightSideView;
+  String vehiclePhotoLeftSideView;
+
+  DriverVehiclePhotosRequest({
+    required this.email,
+    required this.vehiclePhotoFrontView,
+    required this.vehiclePhotoBackView,
+    required this.vehiclePhotoRightSideView,
+    required this.vehiclePhotoLeftSideView,
+  });
+}
+
 class RegisterDetailsRequest {
   String email;
   String countryCode;
